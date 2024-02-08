@@ -1,3 +1,4 @@
+#include <string.h>
 #include <stdlib.h>
 #include "queue.h"
 
@@ -15,8 +16,8 @@ QUEUE *initQueue(int u_byte) {
 	queue -> len = 0;
 	queue -> u_byte = u_byte;
 	queue -> memory = malloc(u_byte * DEF_SIZE);
-	queue -> front = (char *)queue->memory - queue->u_byte;
-	queue -> rear = queue -> memory;
+	queue -> front = queue->memory;
+	queue -> rear = (char *)queue->memory - queue->u_byte;
 	
 	return queue;
 }
@@ -59,13 +60,11 @@ static void nextPtr(QUEUE *queue, int mode) {
 		ptr = &queue->front;
 	} else if(mode==REAR) {
 		ptr = &queue->rear;
-	} else {
-		return NULL;
 	}
 	
 	if((char *)*ptr + queue->u_byte==oom) {
 		*ptr = queue->memory;
 	} else {
-		(char *)*ptr += queue->u_byte;
+		*ptr = (char *) *ptr + queue->u_byte;
 	}
 }
