@@ -6,7 +6,7 @@ static void nextPtr(QUEUE *queue, int mode);
 QUEUE *initQueue(int u_byte) {
 	QUEUE *queue = (QUEUE *) malloc(sizeof(QUEUE));
 	
-	if(u_size<=0 || queue==NULL) {
+	if(u_byte<=0 || queue==NULL) {
 		return (QUEUE *) NULL;
 	}
 	
@@ -15,7 +15,7 @@ QUEUE *initQueue(int u_byte) {
 	queue -> len = 0;
 	queue -> u_byte = u_byte;
 	queue -> memory = malloc(u_byte * DEF_SIZE);
-	queue -> front = queue -> memory;
+	queue -> front = (char *)queue->memory - queue->u_byte;
 	queue -> rear = queue -> memory;
 	
 	return queue;
@@ -27,13 +27,13 @@ void freeQueue(QUEUE *queue) {
 }
 
 int dequeue(QUEUE *queue, void *out) {
-	if(query -> len == 0) {
+	if(queue -> len == 0) {
 		return -1;
 	}
 	
-	memcpy(out, query->front, query->ubyte);
+	memcpy(out, queue->front, queue->u_byte);
 	nextPtr(queue, FRONT);
-	query->len--;
+	queue->len--;
 	
 	return 1;
 }
@@ -45,8 +45,8 @@ int enqueue(QUEUE *queue, void *in) {
 	}
 	
 	nextPtr(queue, REAR);
-	memcpy(query->rear, in, query->u_byte);
-	query->len++;
+	memcpy(queue->rear, in, queue->u_byte);
+	queue->len++;
 
 	return 1;
 }
@@ -66,6 +66,6 @@ static void nextPtr(QUEUE *queue, int mode) {
 	if((char *)*ptr + queue->u_byte==oom) {
 		*ptr = queue->memory;
 	} else {
-		(char *)*ptr += query->u_byte;
+		(char *)*ptr += queue->u_byte;
 	}
 }

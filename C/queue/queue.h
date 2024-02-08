@@ -16,6 +16,6 @@ typedef struct _queue {
 
 QUEUE *initQueue(int u_size); // u_size: 한 요소당 크기
 void freeQueue(QUEUE *queue);
-void dequeue(QUEUE *queue, void *out);
+int dequeue(QUEUE *queue, void *out);
 int enqueue(QUEUE *queue, void *in);
 #endif
