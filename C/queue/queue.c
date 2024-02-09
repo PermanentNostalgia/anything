@@ -54,7 +54,7 @@ int enqueue(QUEUE *queue, void *in) {
 
 static void nextPtr(QUEUE *queue, int mode) {
 	void **ptr;
-	void *oom = (char *)queue->memory + queue->size * queue->u_byte;
+	int index;
 	
 	if(mode==FRONT) {
 		ptr = &queue->front;
@@ -62,9 +62,8 @@ static void nextPtr(QUEUE *queue, int mode) {
 		ptr = &queue->rear;
 	}
 	
-	if((char *)*ptr + queue->u_byte==oom) {
-		*ptr = queue->memory;
-	} else {
-		*ptr = (char *) *ptr + queue->u_byte;
-	}
+	// 다음 요소의 인덱스 구하는 식
+	index = ((char *)*ptr + queue->u_byte - (char *)queue->memory) / queue->u_byte % queue->size;
+	
+	*ptr = (char *)queue->memory + index * queue->u_byte;
 }
