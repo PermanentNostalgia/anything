@@ -6,16 +6,17 @@
 #define REAR 1
 
 typedef struct _queue {
-	int size; // 큐의 크기
-	int len; // 큐의 길이
-	int u_byte; // 요소의 바이트 크기
-	void *front; // 첫번째 요소
-	void *rear; // 마지막 마지막
-	void *memory; // 큐
+	int size;
+	int len;
+	int u_byte;
+	void *front;
+	void *rear;
+	void *memory;
 }QUEUE;
 
-QUEUE *initQueue(int u_size); // u_size: 한 요소당 크기
+QUEUE *initQueue(int u_byte);
 void freeQueue(QUEUE *queue);
 int dequeue(QUEUE *queue, void *out);
 int enqueue(QUEUE *queue, void *in);
+int resize(QUEUE *queue, int size);
 #endif
